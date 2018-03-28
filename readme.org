@@ -2,3 +2,14 @@
 
 Contains cad models and source code for the spaces readers
 
+* Instructions
+Copy env-sample to .env and change values to your device.
+
+#+BEGIN_SRC bash
+  cp env-smaple .env
+  pip install -r requirements.txt
+  python door-entry-system.py
+#+END_SRC
+
+You should probably setup up a system service or use supervisor to keep the process alive in case something goes wrong.
+
