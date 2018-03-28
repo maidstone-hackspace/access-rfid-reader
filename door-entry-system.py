@@ -5,53 +5,58 @@ import jwt
 import requests
 import nfc
 import logging
+from dotenv import load_dotenv
+load_dotenv()
 
+LED_PIN = 17
+DOOR_LATCH_PIN = 18
 
 gpio.setmode(gpio.BCM)
 gpio.setwarnings(False)
-#rfid
-gpio.setup(17,gpio.OUT)
-
-#strike
-gpio.setup(18,gpio.OUT)
+gpio.setup(LED_PIN, gpio.OUT)
+gpio.setup(DOOR_LATCH_PIN, gpio.OUT)
 
 
 DEVICE_ID = '62ef7d94-4c56-41ba-8694-550e4b0ef5e9'
 SECRET = 'kjlsdlkdskldf'
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
-#logging.basicConfig(filename='/tmp/rfid.log', level=logging.DEBUG)
+logging.basicConfig(
+    filename='/tmp/rfid.log',
+    format='%(levelname)s:%(message)s',
+    level=logging.DEBUG)
+
 
 def trigger_door(mode=False):
     if mode is True:
-       print('door activate')
-       gpio.output(18,gpio.HIGH)
+        print('door activate')
+        gpio.output(DOOR_LATCH_PIN, gpio.HIGH)
     time.sleep(1)
-    gpio.output(18,gpio.LOW)
+    gpio.output(DOOR_LATCH_PIN, gpio.LOW)
+
 
 def flash_led(mode=False):
     if mode is True:
-        gpio.output(17,gpio.HIGH)
+        gpio.output(LED_PIN, gpio.HIGH)
         time.sleep(1)
-        gpio.output(17,gpio.LOW)
+        gpio.output(LED_PIN, gpio.LOW)
     if mode is False:
         for _ in range(0, 3):
-            gpio.output(17, gpio.HIGH)
+            gpio.output(LED_PIN, gpio.HIGH)
             time.sleep(0.1)
-            gpio.output(17, gpio.LOW)
+            gpio.output(LED_PIN, gpio.LOW)
             time.sleep(0.1)
     time.sleep(1)
 
+
 def open():
     trigger_door(True)
-    flash_led('on')
+    flash_led(True)
     logging.info('Request allowed')
-    pass
 
 
 def deny():
-    trigger_door(True)
+    trigger_door(False)
+    flash_led()
     logging.info('Request denied')
-    pass
 
 
 def check_valid(rfid_token):
