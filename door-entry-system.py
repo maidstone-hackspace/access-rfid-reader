@@ -1,10 +1,11 @@
 import datetime
 import jwt
 import requests
-import nfc
+#import nfc
 import os
 import logging
-
+import nfc_rdm6300 as nfc
+from time import sleep
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -22,8 +23,10 @@ def deny():
 
 
 def check_valid(rfid_token):
+    if not rfid_token:
+        return
     encoded = jwt.encode({
-        'rfid_code': rfid_token,
+        'rfid_code': rfid_token.decode("utf-8"),
         'device_id': os.getenv('DEVICE_ID'),
         'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
     }, os.getenv('SECRET'), algorithm='HS256')
@@ -41,16 +44,20 @@ def check_valid(rfid_token):
     else:
         deny()
 
-
-while True:
+clf = "/dev/ttyS0"
+with nfc.nfc("/dev/ttyS0") as port:
     logging.info('RFID Reader started')
-    with nfc.ContactlessFrontend('tty:S0:pn532') as clf:
+    while True:
+    #with nfc.ContactlessFrontend('tty:S0:pn532') as clf:
         logging.debug('Listening on %s' % clf)
-        tag = clf.connect(rdwr={'on-connect': lambda tag: False})
-        code = str(tag.identifier).encode('hex')
+        #tag = clf.connect(rdwr={'on-connect': lambda tag: False})
+        #code = str(tag.identifier).encode('hex')
+        code = nfc.read_code(port)
+
         logging.info('Detected RFID card %s' % code)
         try:
             check_valid(code)
         except Exception as e:
             logging.exception(e)
             deny()
+        sleep(0.1)

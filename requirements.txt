@@ -1,1 +1,7 @@
+python-dotenv
 dotenv
+jwt
+PyJWT
+pyserial
+RPi.GPIO
+
