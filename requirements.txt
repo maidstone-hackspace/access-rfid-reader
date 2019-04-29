@@ -1,5 +1,4 @@
 python-dotenv
-dotenv
 jwt
 PyJWT
 pyserial

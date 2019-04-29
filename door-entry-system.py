@@ -2,17 +2,23 @@ import datetime
 import jwt
 import requests
 #import nfc
+import settings
 import os
 import logging
 import nfc_rdm6300 as nfc
+import door
+from message import matrix_message
 from time import sleep
 from dotenv import load_dotenv
 load_dotenv()
 
-logging.basicConfig(filename='/tmp/rfid.log', level=logging.DEBUG)
+#logging.basicConfig(filename='/tmp/rfid.log', level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG, handlers=[logging.StreamHandler()])
 
+def allow(details):
+    door.unlock_door()
+    matrix_message('User ' + details.get('username') + ' has entered the building', prefix='', room=settings.MATRIX_ROOM)
 
-def allow():
     logging.info('Request allowed')
     pass
 
@@ -39,13 +45,16 @@ def check_valid(rfid_token):
     parsed_response = jwt.decode(response.json(), os.getenv('SECRET'), algorithms=['HS256'], verify=False)
 
     if parsed_response['authenticated'] is True:
+        print(parsed_response)
         logging.info("User %s has been authenticated" % parsed_response['username'])
-        allow()
+        allow(parsed_response)
     else:
         deny()
 
-clf = "/dev/ttyS0"
-with nfc.nfc("/dev/ttyS0") as port:
+clf = "/dev/serial0"
+
+door.setup()
+with nfc.nfc(clf) as port:
     logging.info('RFID Reader started')
     while True:
     #with nfc.ContactlessFrontend('tty:S0:pn532') as clf:
@@ -53,6 +62,7 @@ with nfc.nfc("/dev/ttyS0") as port:
         #tag = clf.connect(rdwr={'on-connect': lambda tag: False})
         #code = str(tag.identifier).encode('hex')
         code = nfc.read_code(port)
+        print(code)
 
         logging.info('Detected RFID card %s' % code)
         try:

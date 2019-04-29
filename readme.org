@@ -13,3 +13,6 @@ Copy env-sample to .env and change values to your device.
 
 You should probably setup up a system service or use supervisor to keep the process alive in case something goes wrong.
 
+* Setting up serial
+https://www.cannyrobots.com/documentation/configuration/setting-up-raspberry-pi-zero-and-zero-w-for-stepzero-r1/
+
