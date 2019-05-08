@@ -53,6 +53,7 @@ def check_valid(rfid_token):
 
 clf = "/dev/serial0"
 
+
 door.setup()
 with nfc.nfc(clf) as port:
     logging.info('RFID Reader started')
@@ -63,11 +64,13 @@ with nfc.nfc(clf) as port:
         #code = str(tag.identifier).encode('hex')
         code = nfc.read_code(port)
         print(code)
-
         logging.info('Detected RFID card %s' % code)
         try:
             check_valid(code)
         except Exception as e:
             logging.exception(e)
             deny()
-        sleep(0.1)
+        if code:
+            sleep(0.1)
+        nfc.readall(port)
+        sleep(0.01)

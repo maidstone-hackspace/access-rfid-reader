@@ -25,6 +25,11 @@ def nfc(*args, **kwds):
         serial_port.close()
 
 
+def readall(port):
+    while port.in_waiting > 0:
+        port.read()
+
+
 def read_code(port):
     print("read_code")
     ID = b""
