@@ -39,8 +39,8 @@ def read_code(port):
 
 
 # PortRF = serial.Serial('/dev/ttyS0',9600)
-#if __name__ == "__main__":
-#    with nfc(sp) as PortRF:
-#        while True:
-#            code = read_code(PortRF)
-#            print("The code for this card is %s" % str(code))
+if __name__ == "__main__":
+    with nfc(sp) as PortRF:
+        while True:
+            code = read_code(PortRF)
+            print("The code for this card is %s" % str(code))

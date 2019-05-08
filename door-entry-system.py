@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.DEBUG, handlers=[logging.StreamHandler()])
 
 def allow(details):
     door.unlock_door()
-    matrix_message('User ' + details.get('username') + ' has entered the building', prefix='', room=settings.MATRIX_ROOM)
+    matrix_message('User ' + details.get('username') + ' has entered the building', prefix='')
 
     logging.info('Request allowed')
     pass
