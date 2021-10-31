@@ -20,5 +20,14 @@ https://web.archive.org/web/20200919032417/https://www.cannyrobots.com/documenta
 We have confusingly used the same pair of colour wires for the four connections from the rdm6300.
 This connector must be inserted on the top row of pins, from the second pin along (which is Pin 4 using the official RPi pin header numbers.)
 
-The two wires to the door latch are connected to next two adacent pins to the left of the rdm6300 connector (pins 12 and 14 in officials RPi pin header numbers.)
+#+CAPTION: View of the inside wiring of the unit
+#+NAME: DoorBotInternals
+[[./images/ControlBoxOverview.jpg]]
 
+
+The two wires to the door latch are connected to next two adacent pins to the left of the rdm6300 connector (pins 12 and 14 in officials RPi pin header numbers.)
+Pin 12 is the yellow wire, pin 14 is the blue wire.
+
+Yellow goes to `Control-`, Blue goes to `Control+`.
+
+The grey and purple wires to the rdm6300 do not matter which way around they are connected as they are going to the RFID coil.
