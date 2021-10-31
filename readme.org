@@ -31,6 +31,3 @@ Pin 12 is the yellow wire, pin 14 is the blue wire.
 Yellow goes to `Control-`, Blue goes to `Control+`.
 
 The grey and purple wires to the rdm6300 do not matter which way around they are connected as they are going to the RFID coil.
-
-
-
