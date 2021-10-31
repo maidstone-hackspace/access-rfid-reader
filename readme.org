@@ -14,5 +14,11 @@ Copy env-sample to .env and change values to your device.
 You should probably setup up a system service or use supervisor to keep the process alive in case something goes wrong.
 
 * Setting up serial
-https://www.cannyrobots.com/documentation/configuration/setting-up-raspberry-pi-zero-and-zero-w-for-stepzero-r1/
+https://web.archive.org/web/20200919032417/https://www.cannyrobots.com/documentation/configuration/setting-up-raspberry-pi-zero-and-zero-w-for-stepzero-r1/
+
+* Electrical connections
+We have confusingly used the same pair of colour wires for the four connections from the rdm6300.
+This connector must be inserted on the top row of pins, from the second pin along (which is Pin 4 using the official RPi pin header numbers.)
+
+The two wires to the door latch are connected to next two adacent pins to the left of the rdm6300 connector (pins 12 and 14 in officials RPi pin header numbers.)
 
